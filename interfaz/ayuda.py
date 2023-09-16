@@ -32,6 +32,6 @@ class ayuda:
         label4.pack(side="top", fill="x", pady=10)
         
         button = tk.Button(self.ventana, text="Cerrar",
-            highlightbackground='black', height= 4, width=10, command=self.ventana.destroy, bg="#ebf7fa", activebackground="#aeddeb")
+            highlightbackground='black', height= 4, width=10, command=self.ventana.destroy, bg="#ebf7fa", activebackground="#aeddeb", font = self.fuente2)
         button.pack(anchor="s", side="left")
         
