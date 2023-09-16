@@ -6,6 +6,7 @@ class ayuda:
         self.frame = frame
 
         self.ventana = tk.Toplevel(self.frame, bg="#D7EEF5")
+        self.ventana.resizable(0,0)
 
         #self.ventana.geometry("850x450")
 
