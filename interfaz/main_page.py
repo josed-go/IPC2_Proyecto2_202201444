@@ -1,12 +1,17 @@
 import tkinter as tk
 import tkinter.font as font
 
+from tkinter import filedialog, messagebox
+
 from interfaz.ayuda import ayuda
+from funciones.funciones_archivo import funciones_archivo
 
 class main_page:
 
     def __init__(self, raiz):
         self.raiz = raiz
+
+        self.funciones = funciones_archivo()
 
         self.raiz.config(bg="#D7EEF5")
 
@@ -16,6 +21,7 @@ class main_page:
         self.raiz.title("Proyecto 2")
         self.raiz.resizable(0,0)
 
+        self.archivo = ''
         
 
         self.menu = tk.Menu(self.raiz)
@@ -34,15 +40,17 @@ class main_page:
         self.label = tk.Label(self.raiz, text="Encriptador", font = self.titulo, bg="#c3e5f0")
         self.label.pack(side="top", fill="x", pady=10)
 
-        self.button1 = tk.Button(self.raiz, text="Cargar archivo", highlightbackground='black', height= 2, width=25, padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
+        self.button1 = tk.Button(self.raiz, text="Cargar archivo", highlightbackground='black', height= 2, width=25, padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.cargar_archivo)
+        self.buttonP = tk.Button(self.raiz, text="Procesar archivo", highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.procesar_archivo)
         self.button2 = tk.Button(self.raiz, text="Generar archivo", highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
         self.button3 = tk.Button(self.raiz, text="Gestión de drones",highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
         self.button4 = tk.Button(self.raiz, text="Gestión de sitemas de drones", highlightbackground='black', height=2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
         self.button7 = tk.Button(self.raiz, text="Gestión de mensajes", highlightbackground='black', height=2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
-        self.button5 = tk.Button(self.raiz, text="Ayuda", highlightbackground='black', height= 5, width=10, font = self.fuente, command = self.mostrar_ayuda, bg="#ebf7fa", activebackground="#aeddeb")
-        self.button6 = tk.Button(self.raiz, text="Inicializar", highlightbackground='black', height= 5, width=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
+        self.button5 = tk.Button(self.raiz, text="Ayuda", highlightbackground='black', height= 4, width=10, font = self.fuente, command = self.mostrar_ayuda, bg="#ebf7fa", activebackground="#aeddeb")
+        self.button6 = tk.Button(self.raiz, text="Inicializar", highlightbackground='black', height= 4, width=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
 
         self.button1.pack()
+        self.buttonP.pack()
         self.button2.pack()
         self.button3.pack()
         self.button4.pack()
@@ -60,3 +68,17 @@ class main_page:
     def mostrar_ayuda(self):
         ventana = ayuda(self.raiz)
         self.center_window(ventana.ventana, 850, 450)
+
+    def cargar_archivo(self):
+        self.archivo = filedialog.askopenfilename(filetypes=[("Text files", "*.xml")])
+        if self.archivo:
+            messagebox.showinfo("Exito!", "Archivo cargado correctamente.")
+        else:
+            messagebox.showerror("Error!", "Archivo no encontrado.")
+        
+
+    def procesar_archivo(self):
+        if self.archivo:
+            self.funciones.leer_xml(self.archivo)
+        else:
+            messagebox.showwarning("Error!", "Debes de cargar un archivo antes.")
