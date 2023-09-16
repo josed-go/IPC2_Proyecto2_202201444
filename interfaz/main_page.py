@@ -4,6 +4,7 @@ import tkinter.font as font
 from tkinter import filedialog, messagebox
 
 from interfaz.ayuda import ayuda
+from interfaz.gestion_drones import gestion_drones
 from funciones.funciones_archivo import funciones_archivo
 
 class main_page:
@@ -43,7 +44,7 @@ class main_page:
         self.button1 = tk.Button(self.raiz, text="Cargar archivo", highlightbackground='black', height= 2, width=25, padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.cargar_archivo)
         self.buttonP = tk.Button(self.raiz, text="Procesar archivo", highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.procesar_archivo)
         self.button2 = tk.Button(self.raiz, text="Generar archivo", highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
-        self.button3 = tk.Button(self.raiz, text="Gestión de drones",highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
+        self.button3 = tk.Button(self.raiz, text="Gestión de drones",highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.gestion_drones)
         self.button4 = tk.Button(self.raiz, text="Gestión de sitemas de drones", highlightbackground='black', height=2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
         self.button7 = tk.Button(self.raiz, text="Gestión de mensajes", highlightbackground='black', height=2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
         self.button5 = tk.Button(self.raiz, text="Ayuda", highlightbackground='black', height= 4, width=10, font = self.fuente, command = self.mostrar_ayuda, bg="#ebf7fa", activebackground="#aeddeb")
@@ -68,6 +69,11 @@ class main_page:
     def mostrar_ayuda(self):
         ventana = ayuda(self.raiz)
         self.center_window(ventana.ventana, 850, 450)
+
+    def gestion_drones(self):
+        lista_dron = self.funciones.obtener_lista_drones()
+        ventana = gestion_drones(self.raiz, lista_dron, self.funciones)
+        self.center_window(ventana.ventana_gestion, 1050, 650)
 
     def cargar_archivo(self):
         self.archivo = filedialog.askopenfilename(filetypes=[("Text files", "*.xml")])

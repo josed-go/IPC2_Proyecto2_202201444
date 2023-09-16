@@ -22,8 +22,6 @@ class funciones_archivo:
         tree = ET.parse(archivo)
         root = tree.getroot()
 
-        flag = True
-
         for drones in root.findall("./listaDrones/dron"):
             #print(drones.text)
             nuevo_dron = dron(drones.text)
@@ -90,9 +88,22 @@ class funciones_archivo:
 
         self.lista_msg.mostrar_lista()
 
+
     def validar_dron(self, dron):
         for drones in self.lista_dron:
             if dron == drones.nombre:
                 return True
             
         return False
+    
+    def obtener_lista_drones(self):
+        return self.lista_dron
+    
+    def agregar_nuevo_dron(self, dron_nuevo):
+
+        if self.validar_dron(dron_nuevo):
+            return False
+        else :
+            nuevo_dron = dron(dron_nuevo)
+            self.lista_dron.agregar(nuevo_dron)
+            return True
