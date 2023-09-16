@@ -9,16 +9,23 @@ class lista_drones:
     def agregar(self, dron):
         nuevo_nodo = nodo(tipo_dato = dron)
 
-        if self.primero is None:
+        if self.size == 0:
             self.primero = nuevo_nodo
-            self.size += 1
-            return
+            self.ultimo = nuevo_nodo
+        else:
         
-        actual = self.primero
-        while actual.siguiente:
-            actual = actual.siguiente
+            actual = self.primero
+            anterior = None
+            while actual is not None and actual.tipo_dato.nombre < nuevo_nodo.tipo_dato.nombre:
+                anterior = actual
+                actual = actual.siguiente
+            if anterior is None:
+                nuevo_nodo.siguiente = self.primero
+                self.primero = nuevo_nodo
+            else:
+                nuevo_nodo.siguiente = actual
+                anterior.siguiente = nuevo_nodo
 
-        actual.siguiente = nuevo_nodo
         self.size += 1
 
     def __iter__(self):

@@ -81,6 +81,11 @@ class gestion_drones:
             for index, drones in enumerate(self.lista):
                 self.table.insert("", "end", text=f"{index+1}", values=(f"{drones.nombre}"))
 
+    def limpiar_tabla(self):
+        for items in self.table.get_children():
+            self.table.delete(items)
+        self.agregar.delete(0, 'end')
+
     def guardar_dron(self):
         if self.agregar.get() == '':
             messagebox.showerror("Error", "Debes llenar el espacio.", parent = self.ventana_gestion)
@@ -88,6 +93,7 @@ class gestion_drones:
             if self.funciones.agregar_nuevo_dron(self.agregar.get()):
 
                 messagebox.showinfo("Exito", "Se ha agregado el dron correctamente.", parent = self.ventana_gestion)
+                self.limpiar_tabla()
                 self.llenar_tabla()
             else:
                 messagebox.showerror("Error", "Ya existe un dron con ese nombre.", parent = self.ventana_gestion)
