@@ -22,6 +22,8 @@ class funciones_archivo:
         tree = ET.parse(archivo)
         root = tree.getroot()
 
+        flag = True
+
         for drones in root.findall("./listaDrones/dron"):
             #print(drones.text)
             nuevo_dron = dron(drones.text)
@@ -52,10 +54,13 @@ class funciones_archivo:
                     lista_alturas_temp.agregar(altura_nueva)
 
                 #lista_alturas_temp.mostrar_lista()
+                if self.validar_dron(dron_contenido.text):
 
-                contenido_nuevo = contenido(dron_contenido.text, lista_alturas_temp)
+                    contenido_nuevo = contenido(dron_contenido.text, lista_alturas_temp)
 
-                lista_contenido_temp.agregar(contenido_nuevo)
+                    lista_contenido_temp.agregar(contenido_nuevo)
+                else :
+                    print(dron_contenido.text, "no esta definido en la lista drones\n")
 
             nuevo_sistema = sistema_drones(nombre, alturamax.text, cantidadDrones.text, lista_contenido_temp)
 
@@ -84,3 +89,10 @@ class funciones_archivo:
             self.lista_msg.agregar(nuevo_msg)
 
         self.lista_msg.mostrar_lista()
+
+    def validar_dron(self, dron):
+        for drones in self.lista_dron:
+            if dron == drones.nombre:
+                return True
+            
+        return False
