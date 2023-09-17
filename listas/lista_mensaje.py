@@ -8,16 +8,23 @@ class lista_mensaje:
     def agregar(self, mensaje):
         nuevo_nodo = nodo(tipo_dato = mensaje)
 
-        if self.primero is None:
+        if self.size == 0:
             self.primero = nuevo_nodo
-            self.size += 1
-            return
+            self.ultimo = nuevo_nodo
+        else:
         
-        actual = self.primero
-        while actual.siguiente:
-            actual = actual.siguiente
+            actual = self.primero
+            anterior = None
+            while actual is not None and actual.tipo_dato.nombre_msg < nuevo_nodo.tipo_dato.nombre_msg:
+                anterior = actual
+                actual = actual.siguiente
+            if anterior is None:
+                nuevo_nodo.siguiente = self.primero
+                self.primero = nuevo_nodo
+            else:
+                nuevo_nodo.siguiente = actual
+                anterior.siguiente = nuevo_nodo
 
-        actual.siguiente = nuevo_nodo
         self.size += 1
 
     def __iter__(self):
