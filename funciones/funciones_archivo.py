@@ -92,7 +92,7 @@ class funciones_archivo:
             self.lista_msg.agregar(nuevo_msg)
 
         self.lista_msg.mostrar_lista()
-        self.generar_grafica_sistemas()
+        #self.generar_grafica_sistemas()
 
 
     def validar_dron(self, dron):

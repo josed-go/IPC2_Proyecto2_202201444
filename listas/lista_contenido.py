@@ -46,22 +46,6 @@ class lista_contenido:
         texto += "</TR>"
         
         return texto
-
-    def obtener_grafica_altura(self, altura):
-        contador = 1
-        datos = ""
-        actual = self.primero
-
-        for i in range(1,int(altura)+1):
-            datos += f"""<TR>\n<TD border="1" bgcolor="white">{i}</TD>\n"""
-
-            while actual != None and contador <= int(altura):
-                datos += actual.tipo_dato.alturas.graficar()
-                actual = actual.siguiente
-            
-            datos += "</TR>"
-        
-        return datos
     
     def mostrar_lista(self):
         print("TOTAL CONTENIDOS:", self.size)

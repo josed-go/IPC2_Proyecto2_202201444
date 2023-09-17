@@ -59,7 +59,6 @@ class lista_sistema_drones:
         f.close()
         os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
         os.system(f'dot -Tpng bb.dot -o GRAFICA_SISTEMA.png')
-        print("## GRAFICA GENERADA ##")
     
     def mostrar_lista(self):
         print("TOTAL SISTEMAS:", self.size)
