@@ -5,10 +5,10 @@ from tkinter import messagebox
 import subprocess
 
 class gestion_sistema:
-    def __init__(self, raiz, funciones):
+    def __init__(self, raiz, funciones, bandera):
         self.raiz = raiz
         self.funciones = funciones
-
+        self.flag = bandera
         self.ventana_gestion = tk.Toplevel(self.raiz, bg="#D7EEF5")
         self.ventana_gestion.resizable(0,0)
         #self.ventana_gestion.anchor("center")
@@ -34,9 +34,12 @@ class gestion_sistema:
         
 
     def generar_grafica(self):
-        self.funciones.generar_grafica_sistemas()
-        messagebox.showinfo("Exito", "Grafica generada con exito", parent = self.ventana_gestion)
-        self.mostrar_imagen()
+        if self.flag:
+            self.funciones.generar_grafica_sistemas()
+            messagebox.showinfo("Exito", "Grafica generada con exito", parent = self.ventana_gestion)
+            self.mostrar_imagen()
+        else :
+            messagebox.showwarning("Error!", "Debes de procesar el archivo.")
 
     def mostrar_imagen(self):
         # self.button2 = tk.Button(self.ventana_gestion, text="Generar grafica", highlightbackground='black', height= 2, width=15, padx=6, pady=6, font = self.fuente1, bg="#ebf7fa", activebackground="#aeddeb")
