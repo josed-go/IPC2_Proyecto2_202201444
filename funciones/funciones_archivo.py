@@ -38,7 +38,9 @@ class funciones_archivo:
             #print("Altura maxima:",alturamax.text, "| Cantidad Drones:", cantidadDrones.text)
 
             lista_contenido_temp = lista_contenido()
+            lista_alturas_graf = lista_alturas()
 
+            cont = 1
             for contenidos in sistema.findall("contenido"):
                 dron_contenido = contenidos.find("dron")
 
@@ -46,22 +48,25 @@ class funciones_archivo:
 
                 #print("Dron:", dron_contenido.text+"\n")
                 #print("Alturas:")
-                for alturas_dron in contenidos.findall("./alturas/altura"):
-                    #print("Altura:",alturas_dron.get("valor"), "| Letra:", alturas_dron.text)
-                    altura_nueva = altura(alturas_dron.get("valor"), alturas_dron.text)
-                    lista_alturas_temp.agregar(altura_nueva)
-
-                #lista_alturas_temp.mostrar_lista()
                 if self.validar_dron(dron_contenido.text):
+                    for alturas_dron in contenidos.findall("./alturas/altura"):
+                        #print("Altura:",alturas_dron.get("valor"), "| Letra:", alturas_dron.text)
+                        altura_nueva = altura(alturas_dron.get("valor"), alturas_dron.text, dron_contenido.text, cont)
+                        lista_alturas_graf.agregar_ordenado(altura_nueva)
+                        lista_alturas_temp.agregar(altura_nueva)
 
+                    #lista_alturas_temp.mostrar_lista()
+                
+
+                    cont += 1
                     contenido_nuevo = contenido(dron_contenido.text, lista_alturas_temp)
 
                     lista_contenido_temp.agregar(contenido_nuevo)
                 else :
                     print(dron_contenido.text, "no esta definido en la lista drones\n")
+                
 
-            nuevo_sistema = sistema_drones(nombre, alturamax.text, cantidadDrones.text, lista_contenido_temp)
-
+            nuevo_sistema = sistema_drones(nombre, alturamax.text, cantidadDrones.text, lista_contenido_temp, lista_alturas_graf)
             self.lista_sistemas.agregar(nuevo_sistema)
             
             #lista_contenido_temp.mostrar_lista()
@@ -87,6 +92,7 @@ class funciones_archivo:
             self.lista_msg.agregar(nuevo_msg)
 
         self.lista_msg.mostrar_lista()
+        self.generar_grafica_sistemas()
 
 
     def validar_dron(self, dron):
@@ -107,3 +113,6 @@ class funciones_archivo:
             nuevo_dron = dron(dron_nuevo)
             self.lista_dron.agregar(nuevo_dron)
             return True
+        
+    def generar_grafica_sistemas(self):
+        self.lista_sistemas.graficar()

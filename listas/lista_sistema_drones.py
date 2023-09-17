@@ -1,4 +1,5 @@
 from listas.nodo import nodo
+import os
 
 class lista_sistema_drones:
 
@@ -35,6 +36,30 @@ class lista_sistema_drones:
         
     def obtener_size(self):
         return self.size
+    
+    def graficar(self):
+        contador = 0
+        texto = "digraph G {\n"
+
+        actual = self.primero
+
+        while actual != None:
+            texto += f"""a{contador} [ shape="none" fontname="Helvetica" label=<\n
+            <TABLE border="0" cellspacing="0.5" cellpadding="10" bgcolor="white">\n
+                <TR><TD colspan="{int(actual.tipo_dato.cantidad)+1}" border="1" bgcolor="#aeddeb">{actual.tipo_dato.nombre}</TD></TR>\n"""
+            texto += actual.tipo_dato.contenido.graficar()
+            texto += actual.tipo_dato.lista_graf.graficar()
+            texto += "</TABLE>>]\n"
+            contador += 1
+            actual = actual.siguiente
+        texto += "}"
+
+        f = open('bb.dot', 'w')
+        f.write(texto)
+        f.close()
+        os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
+        os.system(f'dot -Tpng bb.dot -o GRAFICA_SISTEMA.png')
+        print("## GRAFICA GENERADA ##")
     
     def mostrar_lista(self):
         print("TOTAL SISTEMAS:", self.size)
