@@ -105,6 +105,16 @@ class funciones_archivo:
     def obtener_lista_drones(self):
         return self.lista_dron
     
+    def obtener_lista_mensajes(self):
+        return self.lista_msg
+    
+    def obtener_lista_instrucciones_por_mensaje(self, msg):
+        for lista in self.lista_msg:
+            if lista.nombre_msg == msg:
+                return lista
+            
+        return None
+    
     def agregar_nuevo_dron(self, dron_nuevo):
 
         if self.validar_dron(dron_nuevo):

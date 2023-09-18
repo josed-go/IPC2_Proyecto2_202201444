@@ -6,6 +6,7 @@ from tkinter import filedialog, messagebox
 from interfaz.ayuda import ayuda
 from interfaz.gestion_drones import gestion_drones
 from interfaz.gestion_sistema import gestion_sistema
+from interfaz.gestion_mensajes import gestion_mensajes
 from funciones.funciones_archivo import funciones_archivo
 
 class main_page:
@@ -49,7 +50,7 @@ class main_page:
         self.button2 = tk.Button(self.raiz, text="Generar archivo", highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
         self.button3 = tk.Button(self.raiz, text="Gestión de drones",highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.gestion_drones)
         self.button4 = tk.Button(self.raiz, text="Gestión de sitemas de drones", highlightbackground='black', height=2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.gestion_sistema_drones)
-        self.button7 = tk.Button(self.raiz, text="Gestión de mensajes", highlightbackground='black', height=2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
+        self.button7 = tk.Button(self.raiz, text="Gestión de mensajes", highlightbackground='black', height=2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.gestion_mensajes)
         self.button5 = tk.Button(self.raiz, text="Ayuda", highlightbackground='black', height= 4, width=10, font = self.fuente, command = self.mostrar_ayuda, bg="#ebf7fa", activebackground="#aeddeb")
         self.button6 = tk.Button(self.raiz, text="Inicializar", highlightbackground='black', height= 4, width=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
 
@@ -79,8 +80,12 @@ class main_page:
         self.center_window(ventana.ventana_gestion, 1050, 650)
 
     def gestion_sistema_drones(self):
-        ventana = gestion_sistema(self.raiz, self.funciones)
+        ventana = gestion_sistema(self.raiz, self.funciones, self.flag)
         self.center_window(ventana.ventana_gestion, 1050, 650,)
+
+    def gestion_mensajes(self):
+        ventana = gestion_mensajes(self.raiz, self.funciones)
+        self.center_window(ventana.ventana_gestion, 1250, 850,)
 
     def cargar_archivo(self):
         self.archivo = filedialog.askopenfilename(filetypes=[("Text files", "*.xml")])
@@ -98,7 +103,7 @@ class main_page:
             messagebox.showwarning("Error!", "Debes de cargar un archivo antes.")
 
     def generar_grafica(self):
-        if self.flag:
+        if self.flag == True:
             self.funciones.generar_grafica_sistemas()
         else :
             messagebox.showwarning("Error!", "Debes de procesar el archivo.")
