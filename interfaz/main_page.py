@@ -99,6 +99,7 @@ class main_page:
         if self.archivo:
             self.funciones.leer_xml(self.archivo)
             self.flag = True
+            messagebox.showinfo("Exito!", "Archivo procesado correctamente.")
         else:
             messagebox.showwarning("Error!", "Debes de cargar un archivo antes.")
 
