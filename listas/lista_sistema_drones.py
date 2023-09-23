@@ -34,6 +34,16 @@ class lista_sistema_drones:
         else:
             raise StopIteration
         
+    def obtener_sistema(self, sistema):
+        actual = self.primero
+
+        while actual != None:
+            if actual.tipo_dato.nombre == sistema:
+                return actual.tipo_dato
+            actual = actual.siguiente
+
+        return None
+        
     def obtener_size(self):
         return self.size
     

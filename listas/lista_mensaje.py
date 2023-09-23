@@ -27,6 +27,16 @@ class lista_mensaje:
 
         self.size += 1
 
+    def obtener_msg(self, msg):
+        actual = self.primero
+
+        while actual != None:
+            if actual.tipo_dato.nombre_msg == msg:
+                return actual.tipo_dato
+            actual = actual.siguiente
+
+        return None
+
     def __iter__(self):
         self.actual = self.primero
         return self

@@ -77,6 +77,16 @@ class lista_alturas:
         texto += "</TR>\n"       
         return texto     
     
+    def obtener_alturas(self, dron_buscado):
+        actual = self.primero
+
+        while actual != None:
+            if actual.tipo_dato.dron == dron_buscado:
+                return actual.tipo_dato
+            actual = actual.siguiente
+
+        return None
+    
     def mostrar_lista(self):
         print("TOTAL ALTURAS", self.size)
         print("")

@@ -64,7 +64,6 @@ class funciones_archivo:
                     lista_contenido_temp.agregar(contenido_nuevo)
                 else :
                     print(dron_contenido.text, "no esta definido en la lista drones\n")
-                
 
             nuevo_sistema = sistema_drones(nombre, alturamax.text, cantidadDrones.text, lista_contenido_temp, lista_alturas_graf)
             self.lista_sistemas.agregar(nuevo_sistema)
@@ -94,6 +93,19 @@ class funciones_archivo:
         self.lista_msg.mostrar_lista()
         #self.generar_grafica_sistemas()
 
+    def formar_mensaje(self, nombre_msg):
+        mensaje = ""
+        msg = self.lista_msg.obtener_msg(nombre_msg)
+
+        sistema = self.lista_sistemas.obtener_sistema(msg.sistema)
+
+        for lista_instru in msg.instrucciones:
+            alturas_dron = sistema.contenido.obtener_contenido(lista_instru.dron)
+            for alturas in alturas_dron.alturas:
+                if lista_instru.instruccion == alturas.altura:
+                    mensaje += alturas.valor
+
+        print(mensaje)
 
     def validar_dron(self, dron):
         for drones in self.lista_dron:

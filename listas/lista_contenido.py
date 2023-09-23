@@ -35,6 +35,16 @@ class lista_contenido:
     def obtener_size(self):
         return self.size
     
+    def obtener_contenido(self, dron_buscado):
+        actual = self.primero
+
+        while actual != None:
+            if actual.tipo_dato.dron == dron_buscado:
+                return actual.tipo_dato
+            actual = actual.siguiente
+
+        return None
+    
     def graficar(self):
         texto = """<TR>\n<TD border="1" bgcolor="white">Altura (mts)</TD>"""
 

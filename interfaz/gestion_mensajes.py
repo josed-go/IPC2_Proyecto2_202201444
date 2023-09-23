@@ -84,6 +84,10 @@ class gestion_mensajes:
         self.frame_mensje.config(width=625, height=750)
         self.frame_mensje.grid(row=0, column=1)
 
+        labelen = tk.Label( self.frame_mensje, text="Instrucciones para enviar un mensaje", font=self.fuente2, bg="#D7EEF5")
+        #label.pack(side="top", fill="x", pady=10)
+        labelen.pack()
+
     def llenar_tabla_msg(self):
         lista_msg = self.fn.obtener_lista_mensajes()
         if lista_msg.obtener_size() != 0:
@@ -96,7 +100,7 @@ class gestion_mensajes:
         if item_seleccionado:
             datos = self.table_msg.item(item_seleccionado)
             lista_msg = self.fn.obtener_lista_instrucciones_por_mensaje(datos.get("values")[0])
-            
+            self.fn.formar_mensaje(datos.get("values")[0])
             for index, ins in enumerate(lista_msg.instrucciones):
                 self.table_ins.insert("", "end", text=f"{index+1}", values=(f"{ins.dron}",f"{ins.instruccion}"))
         else :
