@@ -15,7 +15,7 @@ class lista_mensaje:
         
             actual = self.primero
             anterior = None
-            while actual is not None and actual.tipo_dato.nombre_msg < nuevo_nodo.tipo_dato.nombre_msg:
+            while actual is not None and actual.tipo_dato.nombre_msg.lower() < nuevo_nodo.tipo_dato.nombre_msg.lower():
                 anterior = actual
                 actual = actual.siguiente
             if anterior is None:
