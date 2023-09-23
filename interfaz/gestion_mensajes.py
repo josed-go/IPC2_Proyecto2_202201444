@@ -17,6 +17,7 @@ class gestion_mensajes:
         self.fuente1 = font.Font(family='Helvetica', size=20)
         self.fuente2 = font.Font(family='Helvetica', size=15)
         self.fuente3 = font.Font(family='Helvetica', size=13)
+        self.fuente4 = font.Font(family='Helvetica', size=9)
 
         self.ventana_gestion.title("Gestión de mensajes")
 
@@ -88,6 +89,34 @@ class gestion_mensajes:
         #label.pack(side="top", fill="x", pady=10)
         labelen.pack()
 
+        label_pequenio = tk.Label( self.frame_mensje, text="Selecciona un mensaje para procesarlo", font=self.fuente4, bg="#D7EEF5")
+        #label.pack(side="top", fill="x", pady=10)
+        label_pequenio.pack(pady=25)
+
+        self.button_procesar = tk.Button(self.frame_mensje, text="Procesar mensaje", highlightbackground='black', height= 2, width=15, padx=10, font = self.fuente3, bg="#ebf7fa", activebackground="#aeddeb", command = self.procesar)
+
+        self.button_procesar.pack()
+
+        self.frame_datos_msg = tk.Frame(self.frame_mensje, bg="blue")
+        self.frame_datos_msg.pack_propagate(False)
+        self.frame_datos_msg.grid_propagate(False)
+        self.frame_datos_msg.config(width=525, height=350)
+        self.frame_datos_msg.pack(pady=50)
+
+        self.label_nombre_sistema = tk.Label( self.frame_datos_msg, text="Sistema de drones a utilizar:", font=self.fuente2, bg="#D7EEF5")
+        self.label_nombre_sistema.grid(row=0, column=0, padx=45, pady=25)
+
+
+        self.nombre = tk.StringVar()
+        self.nombre_sistema = tk.Entry(self.frame_datos_msg, width=15, font=self.fuente2, justify="left", state="readonly", textvariable=self.nombre)
+        self.nombre_sistema.grid(row=0, column=1)
+
+        self.label_mensaje = tk.Label( self.frame_datos_msg, text="Mensaje a enviar", font=self.fuente2, bg="#D7EEF5")
+        self.label_mensaje.grid(row=1, column=0, columnspan=2)
+
+        self.mensaje = tk.Text(self.frame_datos_msg, width=50, height=5, font=self.fuente3, state="disabled")
+        self.mensaje.grid(row = 2, column=0, columnspan=2, pady=15)
+
     def llenar_tabla_msg(self):
         lista_msg = self.fn.obtener_lista_mensajes()
         if lista_msg.obtener_size() != 0:
@@ -105,6 +134,22 @@ class gestion_mensajes:
                 self.table_ins.insert("", "end", text=f"{index+1}", values=(f"{ins.dron}",f"{ins.instruccion}"))
         else :
             messagebox.showerror("Error", "Debes seleccinar un mensaje", parent = self.ventana_gestion)
+
+    def procesar(self):
+        item_seleccionado = self.table_msg.focus()
+        if item_seleccionado:
+            datos = self.table_msg.item(item_seleccionado)
+            nombre_sistema, mensaje = self.fn.formar_mensaje(datos.get("values")[0])
+            self.nombre.set(nombre_sistema)
+            self.llenar_mensaje(mensaje)           
+        else :
+            messagebox.showerror("Error", "Debes seleccinar un mensaje", parent = self.ventana_gestion)
+
+    def llenar_mensaje(self, mensaje):
+        self.mensaje.config(state="normal")
+        self.mensaje.delete("1.0", tk.END)
+        self.mensaje.insert("1.0", mensaje)
+        self.mensaje.config(state="disabled")
 
     def limpiar_tabla(self, table):
         for items in table.get_children():

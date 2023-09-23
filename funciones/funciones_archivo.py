@@ -105,7 +105,7 @@ class funciones_archivo:
                 if lista_instru.instruccion == alturas.altura:
                     mensaje += alturas.valor
 
-        print(mensaje)
+        return sistema.nombre, mensaje
 
     def validar_dron(self, dron):
         for drones in self.lista_dron:
