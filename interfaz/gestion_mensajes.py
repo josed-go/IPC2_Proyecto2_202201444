@@ -29,19 +29,19 @@ class gestion_mensajes:
             highlightbackground='black', height= 2, width=10, command=self.ventana_gestion.destroy, font = self.fuente3, bg="#ebf7fa", activebackground="#aeddeb")
         self.button.grid(row=2, column=0, sticky="sw")
 
-        self.frame_msg = tk.Frame(self.ventana_gestion, bg="red")
+        self.frame_msg = tk.Frame(self.ventana_gestion, bg="#D7EEF5")
 
         self.frame_msg.config(width=1250, height=750)
         self.frame_msg.pack_propagate(False)
         self.frame_msg.grid_propagate(False)
         self.frame_msg.grid(row=1, column=0)
 
-        self.frame_table = tk.Frame(self.frame_msg, bg="#D7EEF5")
+        self.frame_table = tk.Frame(self.frame_msg, bg="#aeddeb")
         self.frame_table.pack_propagate(False)
         self.frame_table.config(width=625, height=750)
-        self.frame_table.grid(row=0, column=0)
+        self.frame_table.grid(row=0, column=0, padx=15)
 
-        labelmsg = tk.Label( self.frame_table, text="Lista de mensajes", font=self.fuente2, bg="#D7EEF5")
+        labelmsg = tk.Label( self.frame_table, text="Lista de mensajes", font=self.fuente2, bg="#aeddeb")
         #label.pack(side="top", fill="x", pady=10)
         labelmsg.pack()
 
@@ -63,7 +63,7 @@ class gestion_mensajes:
 
         self.button2.pack()
 
-        labelins = tk.Label( self.frame_table, text="Lista de instrucciones", font=self.fuente2, bg="#D7EEF5")
+        labelins = tk.Label( self.frame_table, text="Lista de instrucciones", font=self.fuente2, bg="#aeddeb")
         #label.pack(side="top", fill="x", pady=10)
         labelins.pack(pady=15)
 
@@ -79,7 +79,7 @@ class gestion_mensajes:
 
         self.table_ins.pack(pady=25)
 
-        self.frame_mensje = tk.Frame(self.frame_msg, bg="yellow")
+        self.frame_mensje = tk.Frame(self.frame_msg, bg="#D7EEF5")
         self.frame_mensje.pack_propagate(False)
         self.frame_mensje.grid_propagate(False)
         self.frame_mensje.config(width=625, height=750)
@@ -97,7 +97,7 @@ class gestion_mensajes:
 
         self.button_procesar.pack()
 
-        self.frame_datos_msg = tk.Frame(self.frame_mensje, bg="blue")
+        self.frame_datos_msg = tk.Frame(self.frame_mensje,bg="#D7EEF5")
         self.frame_datos_msg.pack_propagate(False)
         self.frame_datos_msg.grid_propagate(False)
         self.frame_datos_msg.config(width=525, height=350)
