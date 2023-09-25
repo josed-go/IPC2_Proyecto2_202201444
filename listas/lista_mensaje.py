@@ -52,6 +52,14 @@ class lista_mensaje:
     def obtener_size(self):
         return self.size
     
+    def limpiar_datos(self):
+        while self.primero != None:
+            actual = self.primero
+            self.primero = self.primero.siguiente
+            del actual
+        self.size = 0
+        print("-> Lista mensajes eliminada...")
+    
     def mostrar_lista(self):
         print("TOTAL MENSAJES", self.size)
         print("")

@@ -47,6 +47,14 @@ class lista_sistema_drones:
     def obtener_size(self):
         return self.size
     
+    def limpiar_datos(self):
+        while self.primero != None:
+            actual = self.primero
+            self.primero = self.primero.siguiente
+            del actual
+        self.size = 0
+        print("-> Lista sistema eliminada...")
+    
     def graficar(self):
         contador = 0
         texto = "digraph G {\n"

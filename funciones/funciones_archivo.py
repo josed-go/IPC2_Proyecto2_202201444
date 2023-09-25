@@ -4,12 +4,14 @@ from clases.contenido import contenido
 from clases.sistema_drones import sistema_drones
 from clases.instruccion import instruccion
 from clases.mensaje import mensaje
+from clases.movimiento import movimiento
 from listas.lista_drones import lista_drones
 from listas.lista_alturas import lista_alturas
 from listas.lista_contenido import lista_contenido
 from listas.lista_sistema_drones import lista_sistema_drones
 from listas.lista_instruccion import lista_instruccion
 from listas.lista_mensaje import lista_mensaje
+from listas.lista_movimiento import lista_movimiento
 import xml.etree.ElementTree as ET
 
 class funciones_archivo:
@@ -94,10 +96,13 @@ class funciones_archivo:
         #self.generar_grafica_sistemas()
 
     def formar_mensaje(self, nombre_msg):
+        lista_movimientos = lista_movimiento()
         mensaje = ""
         msg = self.lista_msg.obtener_msg(nombre_msg)
 
         sistema = self.lista_sistemas.obtener_sistema(msg.sistema)
+
+        lista_movimientos.agregar(msg, sistema)
 
         for lista_instru in msg.instrucciones:
             alturas_dron = sistema.contenido.obtener_contenido(lista_instru.dron)
@@ -138,3 +143,8 @@ class funciones_archivo:
         
     def generar_grafica_sistemas(self):
         self.lista_sistemas.graficar()
+
+    def inicializar_sistema(self):
+        self.lista_dron.limpiar_datos()
+        self.lista_sistemas.limpiar_datos()
+        self.lista_msg.limpiar_datos()

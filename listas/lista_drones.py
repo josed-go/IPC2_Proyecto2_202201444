@@ -43,6 +43,14 @@ class lista_drones:
     def obtener_size(self):
         return self.size
     
+    def limpiar_datos(self):
+        while self.primero != None:
+            actual = self.primero
+            self.primero = self.primero.siguiente
+            del actual
+        self.size = 0
+        print("-> Lista drones eliminada...")
+    
     def mostrar_lista(self):
         print("TOTAL DRONES:", self.size)
         print("")

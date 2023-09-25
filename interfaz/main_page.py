@@ -52,7 +52,7 @@ class main_page:
         self.button4 = tk.Button(self.raiz, text="Gestión de sitemas de drones", highlightbackground='black', height=2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.gestion_sistema_drones)
         self.button7 = tk.Button(self.raiz, text="Gestión de mensajes", highlightbackground='black', height=2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.gestion_mensajes)
         self.button5 = tk.Button(self.raiz, text="Ayuda", highlightbackground='black', height= 4, width=10, font = self.fuente, command = self.mostrar_ayuda, bg="#ebf7fa", activebackground="#aeddeb")
-        self.button6 = tk.Button(self.raiz, text="Inicializar", highlightbackground='black', height= 4, width=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
+        self.button6 = tk.Button(self.raiz, text="Inicializar", highlightbackground='black', height= 4, width=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.inicializar_sistema)
 
         self.button1.pack()
         self.buttonP.pack()
@@ -93,7 +93,10 @@ class main_page:
             messagebox.showinfo("Exito!", "Archivo cargado correctamente.")
         else:
             messagebox.showerror("Error!", "Archivo no encontrado.")
-        
+
+    def inicializar_sistema(self):
+        self.funciones.inicializar_sistema()
+        messagebox.showinfo("Exito!", "Sistema inicializado correctamente.")
 
     def procesar_archivo(self):
         if self.archivo:
