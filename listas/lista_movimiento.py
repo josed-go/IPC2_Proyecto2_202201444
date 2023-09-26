@@ -226,7 +226,6 @@ class lista_movimiento:
             actual = actual.siguiente
         texto += "</TR>\n"       
         return texto     
-    
 
     def mostrar_lista(self):
         print("TOTAL MOVIMIENTOS:", self.size)

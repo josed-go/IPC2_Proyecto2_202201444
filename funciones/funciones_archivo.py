@@ -5,6 +5,7 @@ from clases.sistema_drones import sistema_drones
 from clases.instruccion import instruccion
 from clases.mensaje import mensaje
 from clases.movimiento import movimiento
+from clases.mensaje_procesado import mensaje_procesado
 from listas.lista_drones import lista_drones
 from listas.lista_alturas import lista_alturas
 from listas.lista_contenido import lista_contenido
@@ -12,6 +13,7 @@ from listas.lista_sistema_drones import lista_sistema_drones
 from listas.lista_instruccion import lista_instruccion
 from listas.lista_mensaje import lista_mensaje
 from listas.lista_movimiento import lista_movimiento
+from listas.lista_msg_procesado import lista_msg_procesado
 import xml.etree.ElementTree as ET
 import threading
 
@@ -20,6 +22,7 @@ class funciones_archivo:
         self.lista_dron = lista_drones()
         self.lista_sistemas = lista_sistema_drones()
         self.lista_msg = lista_mensaje()
+        self.lista_msg_procesado = lista_msg_procesado()
 
     def leer_xml(self,archivo):
         tree = ET.parse(archivo)
@@ -94,7 +97,31 @@ class funciones_archivo:
             self.lista_msg.agregar(nuevo_msg)
 
         self.lista_msg.mostrar_lista()
+        self.procesar_mensajes()
         #self.generar_grafica_sistemas()
+
+    def procesar_mensajes(self):
+        for mensajes in self.lista_msg:
+            mensaje = ""
+            lista_movi = lista_movimiento()
+            sistema = self.lista_sistemas.obtener_sistema(mensajes.sistema)
+            for index, instru in enumerate(mensajes.instrucciones):
+                tiempo = 0
+                self.movimientos_dron(instru.instruccion, instru.dron, lista_movi, tiempo, index)
+                alturas_dron = sistema.contenido.obtener_contenido(instru.dron)
+                for alturas in alturas_dron.alturas:
+                    if instru.instruccion == alturas.altura:
+                        mensaje += alturas.valor
+
+            for index, lista_instru in enumerate(mensajes.instrucciones):
+                lista_movi.completar_esperar(lista_instru.dron, lista_instru.instruccion, index)
+
+            tiempo_optimo = lista_movi.obtener_mayor_tiempo()
+
+            nuevo_ms_procesado = mensaje_procesado(mensajes.nombre_msg, mensaje, sistema.nombre, tiempo_optimo, lista_movi)
+            self.lista_msg_procesado.agregar(nuevo_ms_procesado)
+
+        # self.lista_msg_procesado.mostrar_lista()
 
     def formar_mensaje(self, nombre_msg):
         lista_movimientos = lista_movimiento()
@@ -179,22 +206,22 @@ class funciones_archivo:
                 tiempo_temp += 1
                 nuevo_movimiento = movimiento("Subir", tiempo_temp, dron_, altura_, num)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
-                print(dron_, "subir", tiempo_temp)
+                #print(dron_, "subir", tiempo_temp)
             tiempo_temp += 1
             bandera = lista_movi.obtener_tiempo(tiempo_temp)
             if bandera:
-                print(dron_, "Esperar", tiempo_temp)
+                #print(dron_, "Esperar", tiempo_temp)
                 nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, num)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
                 self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, num)
             else :
-                print(dron_, "Emitir luz", tiempo_temp)
+                #print(dron_, "Emitir luz", tiempo_temp)
                 nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, num)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
         elif altura_temp > int(altura_):
             while altura_temp > altura_llegar:
                 tiempo_temp += 1
-                print(dron_, "bajar", tiempo_temp)
+                #print(dron_, "bajar", tiempo_temp)
                 nuevo_movimiento = movimiento("Bajar", tiempo_temp, dron_, altura_, num)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
                 altura_temp -= 1
@@ -202,24 +229,24 @@ class funciones_archivo:
             tiempo_temp += 1
             bandera = lista_movi.obtener_tiempo(tiempo_temp)
             if bandera:
-                print(dron_, "Esperar", tiempo_temp)
+                #print(dron_, "Esperar", tiempo_temp)
                 nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, num)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
                 self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, num)
             else :
-                print(dron_, "Emitir luz", tiempo_temp)
+                #print(dron_, "Emitir luz", tiempo_temp)
                 nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, num)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
         elif altura_temp == int(altura_):
             tiempo_temp += 1
             bandera = lista_movi.obtener_tiempo(tiempo_temp)
             if bandera:
-                print(dron_, "Esperar", tiempo_temp)
+                #print(dron_, "Esperar", tiempo_temp)
                 nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, num)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
                 self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, num)
             else:
-                print(dron_, "Emitir luz", tiempo_temp)
+                #print(dron_, "Emitir luz", tiempo_temp)
                 nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, num)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
     
@@ -244,6 +271,9 @@ class funciones_archivo:
     def obtener_lista_mensajes(self):
         return self.lista_msg
     
+    def generar_xml(self):
+        self.lista_msg_procesado.generar_xml(self.lista_msg)
+
     def obtener_lista_instrucciones_por_mensaje(self, msg):
         for lista in self.lista_msg:
             if lista.nombre_msg == msg:

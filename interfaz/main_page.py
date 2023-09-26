@@ -47,7 +47,7 @@ class main_page:
 
         self.button1 = tk.Button(self.raiz, text="Cargar archivo", highlightbackground='black', height= 2, width=25, padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.cargar_archivo)
         self.buttonP = tk.Button(self.raiz, text="Procesar archivo", highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.procesar_archivo)
-        self.button2 = tk.Button(self.raiz, text="Generar archivo", highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb")
+        self.button2 = tk.Button(self.raiz, text="Generar archivo", highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb" ,command = self.generar_xml)
         self.button3 = tk.Button(self.raiz, text="Gestión de drones",highlightbackground='black', height= 2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.gestion_drones)
         self.button4 = tk.Button(self.raiz, text="Gestión de sitemas de drones", highlightbackground='black', height=2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.gestion_sistema_drones)
         self.button7 = tk.Button(self.raiz, text="Gestión de mensajes", highlightbackground='black', height=2, width=25 ,padx=10, pady=10, font = self.fuente, bg="#ebf7fa", activebackground="#aeddeb", command = self.gestion_mensajes)
@@ -93,6 +93,13 @@ class main_page:
             messagebox.showinfo("Exito!", "Archivo cargado correctamente.")
         else:
             messagebox.showerror("Error!", "Archivo no encontrado.")
+
+    def generar_xml(self):
+        if self.flag:
+            self.funciones.generar_xml()
+            messagebox.showinfo("Exito!", "Archivo generado correctamente.")
+        else:
+            messagebox.showwarning("Error!", "Debes de procesar un archivo antes.")
 
     def inicializar_sistema(self):
         self.funciones.inicializar_sistema()
