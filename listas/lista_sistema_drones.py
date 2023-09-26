@@ -57,7 +57,7 @@ class lista_sistema_drones:
     
     def graficar(self):
         contador = 0
-        texto = "digraph G {\n"
+        texto = """digraph G {\ncharset="UTF-8" """
 
         actual = self.primero
 
@@ -72,7 +72,7 @@ class lista_sistema_drones:
             actual = actual.siguiente
         texto += "}"
 
-        f = open('bb.dot', 'w')
+        f = open('bb.dot', 'w', encoding="utf-8")
         f.write(texto)
         f.close()
         os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
