@@ -82,7 +82,7 @@ class lista_msg_procesado:
 
         self.prettify_xml(data)
         tree = ET.ElementTree(data)
-        tree.write("archivo_salida.xml")
+        tree.write("archivo_salida.xml",encoding="UTF-8",xml_declaration=True)
         
 
     def prettify_xml(self,element, indent='    '):
