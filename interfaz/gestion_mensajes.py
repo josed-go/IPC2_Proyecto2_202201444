@@ -103,7 +103,7 @@ class gestion_mensajes:
         self.frame_datos_msg.pack_propagate(False)
         self.frame_datos_msg.grid_propagate(False)
         self.frame_datos_msg.config(width=525, height=350)
-        self.frame_datos_msg.pack(pady=50)
+        self.frame_datos_msg.pack(pady=40)
 
         self.label_nombre_sistema = tk.Label( self.frame_datos_msg, text="Sistema de drones a utilizar:", font=self.fuente2, bg="#D7EEF5")
         self.label_nombre_sistema.grid(row=0, column=0, padx=45, pady=25)
