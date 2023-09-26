@@ -97,19 +97,26 @@ class funciones_archivo:
         #self.generar_grafica_sistemas()
 
     def formar_mensaje(self, nombre_msg):
+        lista_movimientos = lista_movimiento()
         mensaje = ""
         msg = self.lista_msg.obtener_msg(nombre_msg)
         sistema = self.lista_sistemas.obtener_sistema(msg.sistema)
 
         for index, lista_instru in enumerate(msg.instrucciones):
+            tiempo = 0
+            self.movimientos_dron(lista_instru.instruccion, lista_instru.dron, lista_movimientos, tiempo, index)
             alturas_dron = sistema.contenido.obtener_contenido(lista_instru.dron)
-            
             for alturas in alturas_dron.alturas:
                 if lista_instru.instruccion == alturas.altura:
                     mensaje += alturas.valor
         #self.movimientos(msg.instrucciones, lista_movimientos)
+
+        for index, lista_instru in enumerate(msg.instrucciones):
+            lista_movimientos.completar_esperar(lista_instru.dron, lista_instru.instruccion, index)
+
+        tiempo_optimo = lista_movimientos.obtener_mayor_tiempo()
         
-        return sistema.nombre, mensaje
+        return sistema.nombre, mensaje, tiempo_optimo
     
     # def movimientos(self, instrucciones, lista_mov):
     #     for instru in instrucciones:

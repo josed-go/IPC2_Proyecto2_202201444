@@ -119,6 +119,14 @@ class gestion_mensajes:
         self.mensaje = tk.Text(self.frame_datos_msg, width=50, height=5, font=self.fuente3, state="disabled")
         self.mensaje.grid(row = 2, column=0, columnspan=2, pady=15)
 
+
+        self.label_tiempo_optimo = tk.Label( self.frame_datos_msg, text="Tiempo optimo:", font=self.fuente2, bg="#D7EEF5")
+        self.label_tiempo_optimo.grid(row=3, column=0, padx=45, pady=25)
+
+        self.tiempo = tk.StringVar()
+        self.tiempo_optimo = tk.Entry(self.frame_datos_msg, width=15, font=self.fuente2, justify="left", state="readonly", textvariable=self.tiempo)
+        self.tiempo_optimo.grid(row=3, column=1)
+
         self.graficar = tk.Button(self.frame_mensje, text="Generar grafica", highlightbackground='black', height= 2, width=15, padx=10, font = self.fuente2, bg="#ebf7fa", activebackground="#aeddeb", command = self.graficar)
 
         self.graficar.pack()
@@ -156,9 +164,10 @@ class gestion_mensajes:
         item_seleccionado = self.table_msg.focus()
         if item_seleccionado:
             datos = self.table_msg.item(item_seleccionado)
-            nombre_sistema, mensaje = self.fn.formar_mensaje(datos.get("values")[0])
+            nombre_sistema, mensaje, tiempo_op = self.fn.formar_mensaje(datos.get("values")[0])
             self.nombre.set(nombre_sistema)
             self.llenar_mensaje(mensaje)      
+            self.tiempo.set(tiempo_op)
             self.bandera = True     
         else :
             messagebox.showerror("Error", "Debes seleccinar un mensaje", parent = self.ventana_gestion)
