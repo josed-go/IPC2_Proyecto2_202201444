@@ -6,6 +6,8 @@ class gestion_mensajes:
 
         self.fn = funciones
 
+        self.bandera = False
+
         self.ventana_gestion = tk.Toplevel(self.raiz, bg="#D7EEF5")
         self.ventana_gestion.resizable(0,0)
         self.ventana_gestion.pack_propagate(False)
@@ -140,12 +142,15 @@ class gestion_mensajes:
 
     def graficar(self):
         item_seleccionado = self.table_msg.focus()
-        if item_seleccionado:
-            datos = self.table_msg.item(item_seleccionado)
-            self.fn.graficar_movimientos(datos.get("values")[0])
-            messagebox.showinfo("Exito", "Grafica generada con exito", parent = self.ventana_gestion)
+        if self.bandera:
+            if item_seleccionado:
+                datos = self.table_msg.item(item_seleccionado)
+                self.fn.graficar_movimientos(datos.get("values")[0])
+                messagebox.showinfo("Exito", "Grafica generada con exito", parent = self.ventana_gestion)
+            else :
+                messagebox.showerror("Error", "Debes seleccinar un mensaje", parent = self.ventana_gestion)
         else :
-            messagebox.showerror("Error", "Debes seleccinar un mensaje", parent = self.ventana_gestion)
+                messagebox.showerror("Error", "Debes procesar un mensaje", parent = self.ventana_gestion)
 
     def procesar(self):
         item_seleccionado = self.table_msg.focus()
@@ -153,7 +158,8 @@ class gestion_mensajes:
             datos = self.table_msg.item(item_seleccionado)
             nombre_sistema, mensaje = self.fn.formar_mensaje(datos.get("values")[0])
             self.nombre.set(nombre_sistema)
-            self.llenar_mensaje(mensaje)           
+            self.llenar_mensaje(mensaje)      
+            self.bandera = True     
         else :
             messagebox.showerror("Error", "Debes seleccinar un mensaje", parent = self.ventana_gestion)
 
