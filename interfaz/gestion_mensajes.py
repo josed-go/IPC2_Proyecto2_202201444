@@ -117,6 +117,10 @@ class gestion_mensajes:
         self.mensaje = tk.Text(self.frame_datos_msg, width=50, height=5, font=self.fuente3, state="disabled")
         self.mensaje.grid(row = 2, column=0, columnspan=2, pady=15)
 
+        self.graficar = tk.Button(self.frame_mensje, text="Generar grafica", highlightbackground='black', height= 2, width=15, padx=10, font = self.fuente2, bg="#ebf7fa", activebackground="#aeddeb", command = self.graficar)
+
+        self.graficar.pack()
+
     def llenar_tabla_msg(self):
         lista_msg = self.fn.obtener_lista_mensajes()
         if lista_msg.obtener_size() != 0:
@@ -131,6 +135,15 @@ class gestion_mensajes:
             lista_msg = self.fn.obtener_lista_instrucciones_por_mensaje(datos.get("values")[0])
             for index, ins in enumerate(lista_msg.instrucciones):
                 self.table_ins.insert("", "end", text=f"{index+1}", values=(f"{ins.dron}",f"{ins.instruccion}"))
+        else :
+            messagebox.showerror("Error", "Debes seleccinar un mensaje", parent = self.ventana_gestion)
+
+    def graficar(self):
+        item_seleccionado = self.table_msg.focus()
+        if item_seleccionado:
+            datos = self.table_msg.item(item_seleccionado)
+            self.fn.graficar_movimientos(datos.get("values")[0])
+            messagebox.showinfo("Exito", "Grafica generada con exito", parent = self.ventana_gestion)
         else :
             messagebox.showerror("Error", "Debes seleccinar un mensaje", parent = self.ventana_gestion)
 

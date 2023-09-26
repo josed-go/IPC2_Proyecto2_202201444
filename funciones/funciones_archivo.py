@@ -97,28 +97,18 @@ class funciones_archivo:
         #self.generar_grafica_sistemas()
 
     def formar_mensaje(self, nombre_msg):
-        lista_movimientos = lista_movimiento()
         mensaje = ""
         msg = self.lista_msg.obtener_msg(nombre_msg)
-
         sistema = self.lista_sistemas.obtener_sistema(msg.sistema)
 
         for index, lista_instru in enumerate(msg.instrucciones):
-            tiempo = 0
             alturas_dron = sistema.contenido.obtener_contenido(lista_instru.dron)
-            self.movimientos_dron(lista_instru.instruccion, lista_instru.dron, lista_movimientos, tiempo, index)
+            
             for alturas in alturas_dron.alturas:
                 if lista_instru.instruccion == alturas.altura:
                     mensaje += alturas.valor
         #self.movimientos(msg.instrucciones, lista_movimientos)
         
-        print("Tiempo Max:", lista_movimientos.obtener_mayor_tiempo())
-
-        for index, lista_instru in enumerate(msg.instrucciones):
-            lista_movimientos.completar_esperar(lista_instru.dron, lista_instru.instruccion, index)
-
-
-        lista_movimientos.mostrar_lista()
         return sistema.nombre, mensaje
     
     # def movimientos(self, instrucciones, lista_mov):
@@ -126,6 +116,29 @@ class funciones_archivo:
     #         t = threading.Thread(target=self.movimientos_dron, args=(instru.instruccion, instru.dron, lista_mov))
     #         t.start()
 
+    def graficar_movimientos(self, nombre_msg):
+        lista_movimientos = lista_movimiento()
+        lista_dron_temp = lista_drones()
+        msg = self.lista_msg.obtener_msg(nombre_msg)
+        sistema = self.lista_sistemas.obtener_sistema(msg.sistema)
+
+        for index, lista_instru in enumerate(msg.instrucciones):
+            tiempo = 0
+            self.movimientos_dron(lista_instru.instruccion, lista_instru.dron, lista_movimientos, tiempo, index)
+            if self.validar_dron_unico(lista_instru.dron, lista_dron_temp) == False:
+                nuevo_dron = dron(lista_instru.dron)
+                lista_dron_temp.agregar_unico(nuevo_dron)
+
+        for index, lista_instru in enumerate(msg.instrucciones):
+            lista_movimientos.completar_esperar(lista_instru.dron, lista_instru.instruccion, index)
+
+        # print("Tiempo Max:", lista_movimientos.obtener_mayor_tiempo())
+
+        # lista_dron_temp.mostrar_lista()
+
+        # lista_movimientos.mostrar_lista()
+
+        lista_movimientos.generar_grafica(sistema.cantidad,msg.nombre_msg, lista_dron_temp)
     
     def movimientos_dron(self, altura_, dron_, lista_movi, tiempo, num):
         tiempo_temp = tiempo
@@ -134,7 +147,6 @@ class funciones_archivo:
         ultimo_tiempo = int(lista_movi.obtener_tiempo_dron(dron_))
         if ultimo_tiempo > 0:
             tiempo_temp = ultimo_tiempo
-            print(tiempo_temp, dron_)
 
         primer_num = int(lista_movi.obtener_numero_dron_primero(dron_))
 
@@ -207,6 +219,13 @@ class funciones_archivo:
 
     def validar_dron(self, dron):
         for drones in self.lista_dron:
+            if dron == drones.nombre:
+                return True
+            
+        return False
+    
+    def validar_dron_unico(self, dron, lista_dron):
+        for drones in lista_dron:
             if dron == drones.nombre:
                 return True
             

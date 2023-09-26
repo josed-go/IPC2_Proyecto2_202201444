@@ -1,5 +1,6 @@
 from listas.nodo import nodo
 from clases.movimiento import movimiento
+import os
 
 class lista_movimiento:
 
@@ -180,7 +181,53 @@ class lista_movimiento:
                 nuevo_movimiento = movimiento("Esperar", tiempos, dron_buscar,altura, num)
                 self.agregar_ordenado(nuevo_movimiento)
 
+    def generar_grafica(self, cantidad, name_msg, drones):
+        texto = """digraph G {
+                    charset="UTF-8"
+
+                    a1 [ shape="none" fontname="Helvetica" label=<
+
+                        <TABLE border="0" cellspacing="0.5" cellpadding="10" bgcolor="white">\n"""
+        
+        texto += f"""<TR><TD colspan="{int(cantidad)+1}" border="1" bgcolor="#aeddeb">"""+name_msg+"""</TD></TR>\n"""
+        
+        texto += """<TR>\n<TD border="1" bgcolor="white">Tiempo (s)</TD>"""
+        for dron in drones:
+            texto += f"""<TD border="1" bgcolor="white">{dron.nombre}</TD>\n"""
+        texto += "</TR>"
+        texto += self.agregar_movimientos_grafica()
+
+        texto += "</TABLE>>]\n}"
+
+        f = open('bb.dot', 'w', encoding="utf-8")
+        f.write(texto)
+        f.close()
+        os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
+        os.system(f'dot -Tpng bb.dot -o GRAFICA_MENSAJE_{name_msg}.png')
+
+    def agregar_movimientos_grafica(self):
+        texto = ""
+
+        actual = self.primero
+        sentinela = actual.tipo_dato.tiempo
+        texto = f"""<TR>\n<TD border="1" bgcolor="white">{actual.tipo_dato.tiempo}</TD>\n"""
+        fila = False
+        while actual != None:
+            if int(sentinela) != int(actual.tipo_dato.tiempo):
+                sentinela = actual.tipo_dato.tiempo
+                fila = False
+                texto += f"""</TR>\n<TR>\n<TD border="1" bgcolor="white">{actual.tipo_dato.tiempo}</TD>\n"""
+            if fila == False:
+                fila = True
+                texto += f"""<TD border="1" bgcolor="white">{actual.tipo_dato.movimiento}</TD>\n"""
+            else:
+                texto += f"""<TD border="1" bgcolor="white">{actual.tipo_dato.movimiento}</TD>\n"""
+
+            actual = actual.siguiente
+        texto += "</TR>\n"       
+        return texto     
     
+
     def mostrar_lista(self):
         print("TOTAL MOVIMIENTOS:", self.size)
         print("")
