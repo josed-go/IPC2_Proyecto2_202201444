@@ -1,4 +1,5 @@
 from listas.nodo import nodo
+from clases.movimiento import movimiento
 
 class lista_movimiento:
 
@@ -19,6 +20,27 @@ class lista_movimiento:
             actual = actual.siguiente
 
         actual.siguiente = nuevo_nodo
+        self.size += 1
+
+    def agregar_ordenado(self, movimiento):
+        nuevo_nodo = nodo(tipo_dato = movimiento)
+
+        if self.size == 0:
+            self.primero = nuevo_nodo
+            self.ultimo = nuevo_nodo
+        else:
+            actual = self.primero
+            anterior = None
+            while actual is not None and (int(actual.tipo_dato.tiempo) < int(nuevo_nodo.tipo_dato.tiempo) or (int(actual.tipo_dato.tiempo) == int(nuevo_nodo.tipo_dato.tiempo) and int(actual.tipo_dato.num_instruccion) < int(nuevo_nodo.tipo_dato.num_instruccion))):
+                anterior = actual
+                actual = actual.siguiente
+            if anterior is None:
+                nuevo_nodo.siguiente = self.primero
+                self.primero = nuevo_nodo
+            else:
+                nuevo_nodo.siguiente = actual
+                anterior.siguiente = nuevo_nodo
+
         self.size += 1
 
     def formar_movimientos(self, msg, sistema):
@@ -65,6 +87,31 @@ class lista_movimiento:
             actual = actual.siguiente
 
         return tiempo
+    
+    def obtener_numero_dron(self, dron_buscado):
+        actual = self.primero
+
+        numero = 0
+
+        while actual != None:
+            if actual.tipo_dato.dron == dron_buscado:
+                numero = actual.tipo_dato.num_instruccion
+            actual = actual.siguiente
+
+        return numero
+    
+    def obtener_numero_dron_primero(self, dron_buscado):
+        actual = self.primero
+
+        numero = 0
+
+        while actual != None:
+            if actual.tipo_dato.dron == dron_buscado:
+                numero = actual.tipo_dato.num_instruccion
+                return numero
+            actual = actual.siguiente
+        
+        return 0
     
     def obtener_altura(self, altura):
         actual = self.primero
@@ -115,11 +162,30 @@ class lista_movimiento:
         
         return tiempo_max
     
+    def validar_posicion(self, tiempo, dron_buscado):
+        actual = self.primero
+
+        while actual:
+            if actual.tipo_dato.tiempo == tiempo and actual.tipo_dato.dron == dron_buscado:
+                return True
+            actual = actual.siguiente
+
+        return False
+    
+    def completar_esperar(self, dron_buscar, altura, num):
+        tiempo = int(self.obtener_mayor_tiempo())
+
+        for tiempos in range(1, tiempo+1):
+            if self.validar_posicion(tiempos, dron_buscar) == False:
+                nuevo_movimiento = movimiento("Esperar", tiempos, dron_buscar,altura, num)
+                self.agregar_ordenado(nuevo_movimiento)
+
+    
     def mostrar_lista(self):
         print("TOTAL MOVIMIENTOS:", self.size)
         print("")
 
         actual = self.primero
         while actual != None:
-            print("Tiempo:", actual.tipo_dato.tiempo, "| MOVIMIENTO:", actual.tipo_dato.movimiento, "| Dron:", actual.tipo_dato.dron)
+            print("Tiempo:", actual.tipo_dato.tiempo, "| MOVIMIENTO:", actual.tipo_dato.movimiento, "| Dron:", actual.tipo_dato.dron, "| No. In:", actual.tipo_dato.num_instruccion)
             actual = actual.siguiente

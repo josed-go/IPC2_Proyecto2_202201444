@@ -103,17 +103,22 @@ class funciones_archivo:
 
         sistema = self.lista_sistemas.obtener_sistema(msg.sistema)
 
-        for lista_instru in msg.instrucciones:
+        for index, lista_instru in enumerate(msg.instrucciones):
             tiempo = 0
             alturas_dron = sistema.contenido.obtener_contenido(lista_instru.dron)
-            self.movimientos_dron(lista_instru.instruccion, lista_instru.dron, lista_movimientos, tiempo)
+            self.movimientos_dron(lista_instru.instruccion, lista_instru.dron, lista_movimientos, tiempo, index)
             for alturas in alturas_dron.alturas:
                 if lista_instru.instruccion == alturas.altura:
                     mensaje += alturas.valor
         #self.movimientos(msg.instrucciones, lista_movimientos)
         
-        lista_movimientos.mostrar_lista()
         print("Tiempo Max:", lista_movimientos.obtener_mayor_tiempo())
+
+        for index, lista_instru in enumerate(msg.instrucciones):
+            lista_movimientos.completar_esperar(lista_instru.dron, lista_instru.instruccion, index)
+
+
+        lista_movimientos.mostrar_lista()
         return sistema.nombre, mensaje
     
     # def movimientos(self, instrucciones, lista_mov):
@@ -122,7 +127,7 @@ class funciones_archivo:
     #         t.start()
 
     
-    def movimientos_dron(self, altura_, dron_, lista_movi, tiempo):
+    def movimientos_dron(self, altura_, dron_, lista_movi, tiempo, num):
         tiempo_temp = tiempo
         altura_llegar = int(altura_)
         altura_temp = int(lista_movi.obtener_movimientos_dron(dron_))
@@ -130,6 +135,12 @@ class funciones_archivo:
         if ultimo_tiempo > 0:
             tiempo_temp = ultimo_tiempo
             print(tiempo_temp, dron_)
+
+        primer_num = int(lista_movi.obtener_numero_dron_primero(dron_))
+
+        numero_ins = int(lista_movi.obtener_numero_dron(dron_))
+        if numero_ins != 0:
+            num = numero_ins
         # debe_esperar = lista_movi.obtener_tiempo(tiempo_temp)
         # debe_esperar2 = lista_movi.obtener_altura(altura_)
         # print("Dron:", dron_)
@@ -147,51 +158,51 @@ class funciones_archivo:
             while altura_temp < altura_llegar:
                 altura_temp += 1
                 tiempo_temp += 1
-                nuevo_movimiento = movimiento("Subir", tiempo_temp, dron_, altura_)
-                lista_movi.agregar(nuevo_movimiento)
+                nuevo_movimiento = movimiento("Subir", tiempo_temp, dron_, altura_, num)
+                lista_movi.agregar_ordenado(nuevo_movimiento)
                 print(dron_, "subir", tiempo_temp)
             tiempo_temp += 1
             bandera = lista_movi.obtener_tiempo(tiempo_temp)
             if bandera:
                 print(dron_, "Esperar", tiempo_temp)
-                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_)
-                lista_movi.agregar(nuevo_movimiento)
-                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp)
+                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, num)
+                lista_movi.agregar_ordenado(nuevo_movimiento)
+                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, num)
             else :
                 print(dron_, "Emitir luz", tiempo_temp)
-                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_)
-                lista_movi.agregar(nuevo_movimiento)
+                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, num)
+                lista_movi.agregar_ordenado(nuevo_movimiento)
         elif altura_temp > int(altura_):
             while altura_temp > altura_llegar:
                 tiempo_temp += 1
                 print(dron_, "bajar", tiempo_temp)
-                nuevo_movimiento = movimiento("Bajar", tiempo_temp, dron_, altura_)
-                lista_movi.agregar(nuevo_movimiento)
+                nuevo_movimiento = movimiento("Bajar", tiempo_temp, dron_, altura_, num)
+                lista_movi.agregar_ordenado(nuevo_movimiento)
                 altura_temp -= 1
             
             tiempo_temp += 1
             bandera = lista_movi.obtener_tiempo(tiempo_temp)
             if bandera:
                 print(dron_, "Esperar", tiempo_temp)
-                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_)
-                lista_movi.agregar(nuevo_movimiento)
-                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp)
+                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, num)
+                lista_movi.agregar_ordenado(nuevo_movimiento)
+                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, num)
             else :
                 print(dron_, "Emitir luz", tiempo_temp)
-                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_)
-                lista_movi.agregar(nuevo_movimiento)
+                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, num)
+                lista_movi.agregar_ordenado(nuevo_movimiento)
         elif altura_temp == int(altura_):
             tiempo_temp += 1
             bandera = lista_movi.obtener_tiempo(tiempo_temp)
             if bandera:
                 print(dron_, "Esperar", tiempo_temp)
-                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_)
-                lista_movi.agregar(nuevo_movimiento)
-                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp)
+                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, num)
+                lista_movi.agregar_ordenado(nuevo_movimiento)
+                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, num)
             else:
                 print(dron_, "Emitir luz", tiempo_temp)
-                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_)
-                lista_movi.agregar(nuevo_movimiento)
+                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, num)
+                lista_movi.agregar_ordenado(nuevo_movimiento)
     
 
     def validar_dron(self, dron):
