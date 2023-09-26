@@ -129,7 +129,6 @@ class gestion_mensajes:
         if item_seleccionado:
             datos = self.table_msg.item(item_seleccionado)
             lista_msg = self.fn.obtener_lista_instrucciones_por_mensaje(datos.get("values")[0])
-            self.fn.formar_mensaje(datos.get("values")[0])
             for index, ins in enumerate(lista_msg.instrucciones):
                 self.table_ins.insert("", "end", text=f"{index+1}", values=(f"{ins.dron}",f"{ins.instruccion}"))
         else :
