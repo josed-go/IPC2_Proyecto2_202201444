@@ -179,6 +179,7 @@ class funciones_archivo:
         altura_llegar = int(altura_)
         altura_temp = int(lista_movi.obtener_movimientos_dron(dron_))
         ultimo_tiempo = int(lista_movi.obtener_tiempo_dron(dron_))
+        indice = int(lista_movi.obtener_indice_dron(dron_, num))
         if ultimo_tiempo > 0:
             tiempo_temp = ultimo_tiempo
 
@@ -204,25 +205,25 @@ class funciones_archivo:
             while altura_temp < altura_llegar:
                 altura_temp += 1
                 tiempo_temp += 1
-                nuevo_movimiento = movimiento("Subir", tiempo_temp, dron_, altura_, num)
+                nuevo_movimiento = movimiento("Subir", tiempo_temp, dron_, altura_, indice)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
                 #print(dron_, "subir", tiempo_temp)
             tiempo_temp += 1
             bandera = lista_movi.obtener_tiempo(tiempo_temp)
             if bandera:
                 #print(dron_, "Esperar", tiempo_temp)
-                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, num)
+                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, indice)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
-                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, num)
+                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, indice)
             else :
                 #print(dron_, "Emitir luz", tiempo_temp)
-                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, num)
+                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, indice)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
         elif altura_temp > int(altura_):
             while altura_temp > altura_llegar:
                 tiempo_temp += 1
                 #print(dron_, "bajar", tiempo_temp)
-                nuevo_movimiento = movimiento("Bajar", tiempo_temp, dron_, altura_, num)
+                nuevo_movimiento = movimiento("Bajar", tiempo_temp, dron_, altura_, indice)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
                 altura_temp -= 1
             
@@ -230,24 +231,24 @@ class funciones_archivo:
             bandera = lista_movi.obtener_tiempo(tiempo_temp)
             if bandera:
                 #print(dron_, "Esperar", tiempo_temp)
-                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, num)
+                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, indice)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
-                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, num)
+                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, indice)
             else :
                 #print(dron_, "Emitir luz", tiempo_temp)
-                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, num)
+                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, indice)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
         elif altura_temp == int(altura_):
             tiempo_temp += 1
             bandera = lista_movi.obtener_tiempo(tiempo_temp)
             if bandera:
                 #print(dron_, "Esperar", tiempo_temp)
-                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, num)
+                nuevo_movimiento = movimiento("Esperar", tiempo_temp, dron_, altura_, indice)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
-                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, num)
+                self.movimientos_dron(altura_, dron_, lista_movi, tiempo_temp, indice)
             else:
                 #print(dron_, "Emitir luz", tiempo_temp)
-                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, num)
+                nuevo_movimiento = movimiento("Emitir luz", tiempo_temp, dron_, altura_, indice)
                 lista_movi.agregar_ordenado(nuevo_movimiento)
     
 

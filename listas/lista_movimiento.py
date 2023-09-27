@@ -65,6 +65,19 @@ class lista_movimiento:
             if altura_actual <= altura_instruccion:
                 pass
 
+    def obtener_indice_dron(self, dron_buscado, indice_):
+        actual = self.primero
+
+        indice = indice_
+
+        while actual != None:
+            if actual.tipo_dato.dron == dron_buscado:
+                indice = actual.tipo_dato.num_instruccion
+                return indice
+            actual = actual.siguiente
+
+        return indice
+
     def obtener_movimientos_dron(self, dron_buscado):
         actual = self.primero
 
