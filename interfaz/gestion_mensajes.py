@@ -120,7 +120,7 @@ class gestion_mensajes:
         self.mensaje.grid(row = 2, column=0, columnspan=2, pady=15)
 
 
-        self.label_tiempo_optimo = tk.Label( self.frame_datos_msg, text="Tiempo optimo:", font=self.fuente2, bg="#D7EEF5")
+        self.label_tiempo_optimo = tk.Label( self.frame_datos_msg, text="Tiempo óptimo:", font=self.fuente2, bg="#D7EEF5")
         self.label_tiempo_optimo.grid(row=3, column=0, padx=45, pady=25)
 
         self.tiempo = tk.StringVar()
