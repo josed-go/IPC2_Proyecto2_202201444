@@ -298,3 +298,4 @@ class funciones_archivo:
         self.lista_dron.limpiar_datos()
         self.lista_sistemas.limpiar_datos()
         self.lista_msg.limpiar_datos()
+        self.lista_msg_procesado.limpiar_datos()

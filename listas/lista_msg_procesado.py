@@ -98,7 +98,14 @@ class lista_msg_procesado:
                 element.tail = '\n' + indent * (level-1)  
             queue[0:0] = children
 
-    
+    def limpiar_datos(self):
+        while self.primero != None:
+            actual = self.primero
+            self.primero = self.primero.siguiente
+            del actual
+        self.size = 0
+        print("-> Lista mensajes procesados eliminada...")
+
     def mostrar_lista(self):
         print("TOTAL MENSAJES", self.size)
         print("")
