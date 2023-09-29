@@ -30,8 +30,9 @@ class funciones_archivo:
 
         for drones in root.findall("./listaDrones/dron"):
             #print(drones.text)
-            nuevo_dron = dron(drones.text)
-            self.lista_dron.agregar(nuevo_dron)
+            if self.validar_dron(drones.text) == False:
+                nuevo_dron = dron(drones.text)
+                self.lista_dron.agregar(nuevo_dron)
         
         self.lista_dron.mostrar_lista()
 
